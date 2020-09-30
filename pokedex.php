@@ -20,16 +20,30 @@ $img = $data['sprites']['front_default'];
 $allMoves = $data['moves'];
 
         //get moves
-$fourMoves = array();
 
+        //get 4 moves but if any pokemon has fewer than 4, show them all
 function getMoves($allMoves){
-    $maxMoves = count($allMoves);
+    $fourRandMoves = array();
+    $maxMoves = count($allMoves);   //count() count all elements in array
     if($maxMoves > 4){
-        $fourRandMoves = 4;
-    } elseif ($maxMoves < 4){
-        $fourRandMoves = $maxMoves;
+        $fourMoves = 4;
+        for($i = 0; $i < $fourMoves; $i++){
+            $random = floor(rand(0, $maxMoves - 1) - 0);
+            array_push($fourRandMoves, $allMoves[$random]['move']['name']);
+        }
+    } elseif ($maxMoves < 4) {
+        $fourMoves = $maxMoves;
+        for ($i = 0; $i < $fourMoves; $i++) {
+            array_push($fourRandMoves, $allMoves[$i]['move']['name']);
+
+        }
     }
+
+
 }
+$getMoves = getMoves($allMoves);
+
+
 
 
 
@@ -52,12 +66,13 @@ function getMoves($allMoves){
     </div>
     <div class="name">
         <h2><?php echo $pokeId; echo '&nbsp;'; echo ucfirst($name);?></h2>  <!-- &nbsp (Non-Breakable Space) whitespace between id & name-->
-    </div>                                                                  <!--ucfirst() first char uppercase -->
+    </div>                                                                  <!-- ucfirst() first char uppercase -->
     <div id="image">
         <img src="<?php echo $img;?>">
     </div>
-    <!-- <h3>4 Moves</h3>
-    <ul class="moves">
+    <h3>4 Moves</h3>
+    <?php echo $getMoves;?>
+    <!-- <ul class="moves">
         <li id="moveOne"></li>
         <li id="moveTwo"></li>
         <li id="moveThree"></li>
