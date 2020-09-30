@@ -5,13 +5,13 @@ ini_Set('display_errors', 1);    // 1 true 0 false
 ini_Set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+global $pokemon;
 $pokemon = $_POST['nameid'];       // get input from form
 
 if ($pokemon === null) {
     $pokemon = 1;
 }
 //fetch data
-
 $getData = file_get_contents('https://pokeapi.co/api/v2/pokemon/' . $pokemon);
 $data = (json_decode($getData, true));
 //var_dump($data);
@@ -20,8 +20,8 @@ $pokeId = $data['id'];
 $img = $data['sprites']['front_default'];
 $allMoves = $data['moves'];
 
-//get moves
 
+//get moves
 function getMoves($allMoves)
 {
 
@@ -29,7 +29,7 @@ function getMoves($allMoves)
     $maxMoves = count($allMoves);   //count() count all elements in array
     if ($maxMoves > 4) {
         $fourMoves = 4;
-                                    //only pick 4 moves but if any pokemon has fewer than 4, show them all
+        //only pick 4 moves but if any pokemon has fewer than 4, show them all
     } elseif ($maxMoves < 4) {      // e.g. Ditto
         $fourMoves = $maxMoves;
     }
@@ -49,21 +49,24 @@ function getMoves($allMoves)
 
 $displayMoves = getMoves($allMoves);        // make a var out of the func to use it in HTML and be able to index it
 
-function getEvo(){
+
+function getEvo($pokemon){
+                                //fetch evolution data
     $getEvoData = file_get_contents('https://pokeapi.co/api/v2/pokemon-species/' . $pokemon);
     $evoData = (json_decode($getEvoData, true));
-    $prevEvo = $evoData['evolves_from_species'];
+    $prevEvo = $evoData['evolves_from_species'];        
 
-        if($prevEvo){
-            $prevEvoName = $prevEvo['name'];
-            echo $prevEvoName;
+        $prevEvoName = $prevEvo['name'];            //fetch data of previous evolution
+        $getPrevEvoData = file_get_contents('https://pokeapi.co/api/v2/pokemon/' . $prevEvoName);
+        $prevEvoData = (json_decode($getPrevEvoData, true));
+        $prevEvoImg = $prevEvoData['sprites']['front_default'];     //get sprite from previous evolution
 
-    }
+    return($prevEvoImg);
 }
-getEvo();
 
 
-
+getEvo($pokemon);
+$prevEvoImg = getEvo($pokemon);     // we need to use it in HTML img tag
 
 
 
@@ -95,5 +98,8 @@ getEvo();
     }
     ?>
 </ul>
+<h3>Previous Evolution</h3>
+ <img src="<?php echo $prevEvoImg; ?>">
+
 </body>
 </html>
