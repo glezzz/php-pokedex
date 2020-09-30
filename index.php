@@ -11,6 +11,7 @@ if ($pokemon === null) {
     $pokemon = 1;
 }
 //fetch data
+
 $getData = file_get_contents('https://pokeapi.co/api/v2/pokemon/' . $pokemon);
 $data = (json_decode($getData, true));
 //var_dump($data);
@@ -21,7 +22,8 @@ $allMoves = $data['moves'];
 
 //get moves
 
-function getMoves($allMoves){
+function getMoves($allMoves)
+{
 
     $arrFourRandMoves = array();
     $maxMoves = count($allMoves);   //count() count all elements in array
@@ -32,19 +34,37 @@ function getMoves($allMoves){
         $fourMoves = $maxMoves;
     }
 
-    for($i = 0; $i < $fourMoves; $i++){      // loop through all possible moves and push 4 random ones to the array
-        if ($maxMoves > 4){
+    for ($i = 0; $i < $fourMoves; $i++) {      // loop through all possible moves and push 4 random ones to the array
+        if ($maxMoves > 4) {
             $randMove = floor(rand(0, $maxMoves));
             array_push($arrFourRandMoves, $allMoves[$randMove]['move']['name']);
-        } elseif ($maxMoves < 4){
+        } elseif ($maxMoves < 4) {
             array_push($arrFourRandMoves, $allMoves[$i]['move']['name']);
         }
 
     }
     return $arrFourRandMoves;
+
 }
 
 $displayMoves = getMoves($allMoves);        // make a var out of the func to use it in HTML and be able to index it
+
+function getEvo(){
+    $getEvoData = file_get_contents('https://pokeapi.co/api/v2/pokemon-species/' . $pokemon);
+    $evoData = (json_decode($getEvoData, true));
+    $prevEvo = $evoData['evolves_from_species'];
+
+        if($prevEvo){
+            $prevEvoName = $prevEvo['name'];
+            echo $prevEvoName;
+
+    }
+}
+getEvo();
+
+
+
+
 
 
 ?>
@@ -68,12 +88,12 @@ $displayMoves = getMoves($allMoves);        // make a var out of the func to use
 <h3>4 Moves</h3>
 <ul class="moves">
     <?php
-        $i = 0;
-        while ($i < count($displayMoves)) {
-            echo '<li>' . ucfirst($displayMoves[$i]) . '</li>';
-            $i++;
-        }
-        ?>
+    $i = 0;                                     // while loop to run the func as long as it remains true, which is 4
+    while ($i < count($displayMoves)) {
+        echo '<li>' . ucfirst($displayMoves[$i]) . '</li>';
+        $i++;
+    }
+    ?>
 </ul>
 </body>
 </html>
