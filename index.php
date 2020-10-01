@@ -9,44 +9,46 @@ global $pokemon;
                                 // get input from form
 if(isset($_GET['nameid'])){
     $pokemon = $_GET['nameid'];
+} else {
+    $pokemon = 1;
 }
 
 
 //fetch data
-$getData = file_get_contents('https://pokeapi.co/api/v2/pokemon/' . $pokemon);
-$data = (json_decode($getData, true));
+$get_data = file_get_contents('https://pokeapi.co/api/v2/pokemon/' . $pokemon);
+$data = (json_decode($get_data, true));
 //var_dump($data);
 $name = $data['name'];
-$pokeId = $data['id'];
+$poke_id = $data['id'];
 $img = $data['sprites']['front_default'];
-$allMoves = $data['moves'];
+$all_moves = $data['moves'];
 
 //get moves
-function getMoves($allMoves){
+function getMoves($all_moves){
 
-    $arrFourRandMoves = array();
-    $maxMoves = count($allMoves);   //count() count all elements in array
-    if ($maxMoves > 4) {
-        $fourMoves = 4;
+    $arr_four_rand_moves = array();
+    $max_moves = count($all_moves);   //count() count all elements in array
+    if ($max_moves > 4) {
+        $four_moves = 4;
                                     //only pick 4 moves but if any pokemon has fewer than 4, show them all
     } else {                        // e.g. Ditto
-        $fourMoves = $maxMoves;
+        $four_moves = $max_moves;
     }
 
-    for ($i = 0; $i < $fourMoves; $i++) {      // loop through all possible moves and push 4 random ones to the array
-        if ($maxMoves > 4) {
-            $randMove = floor(rand(0, $maxMoves));
-            array_push($arrFourRandMoves, $allMoves[$randMove]['move']['name']);
-        } elseif ($maxMoves < 4) {
-            array_push($arrFourRandMoves, $allMoves[$i]['move']['name']);
+    for ($i = 0; $i < $four_moves; $i++) {      // loop through all possible moves and push 4 random ones to the array
+        if ($max_moves > 4) {
+            $rand_move = floor(rand(0, $max_moves));
+            array_push($arr_four_rand_moves, $all_moves[$rand_move]['move']['name']);
+        } elseif ($max_moves < 4) {
+            array_push($arr_four_rand_moves, $all_moves[$i]['move']['name']);
         }
 
     }
-    return $arrFourRandMoves;
+    return $arr_four_rand_moves;
 
 }
 
-$displayMoves = getMoves($allMoves);        // make a var out of the func to use it in HTML and be able to index it
+$display_moves = getMoves($all_moves);        // make a var out of the func to use it in HTML and be able to index it
 
 
 function getEvo($pokemon){
@@ -61,7 +63,6 @@ function getEvo($pokemon){
         $prev_evo_data = (json_decode($get_prev_evo_data, true));
         $prev_evo_img = $prev_evo_data['sprites']['front_default'];     //get sprite from previous evolution
         return($prev_evo_img);
-
 
     }else{
 
@@ -85,7 +86,7 @@ $prev_evo_img = getEvo($pokemon);     // we need to use it in HTML img tag
     </form>
 </div>
 <div class="name">
-    <h2><?php echo $pokeId;
+    <h2><?php echo $poke_id;
         echo '&nbsp;';
         echo ucfirst($name); ?></h2>  <!-- &nbsp (Non-Breakable Space) whitespace between id & name-->
 </div>                                                                  <!-- ucfirst() first char uppercase -->
@@ -96,14 +97,14 @@ $prev_evo_img = getEvo($pokemon);     // we need to use it in HTML img tag
 <ul class="moves">
     <?php
     $i = 0;                                     // while loop to run the func as long as it remains true, which is 4
-    while ($i < count($displayMoves)) {
-        echo '<li>' . ucfirst($displayMoves[$i]) . '</li>';
+    while ($i < count($display_moves)) {
+        echo '<li>' . ucfirst($display_moves[$i]) . '</li>';
         $i++;
     }
     ?>
 </ul>
 <h3>Previous Evolution</h3>
- <img src="<?php echo $prev_evo_img; ?>">
+ <img src="<?php echo $prev_evo_img;?>">
 
 </body>
 </html>
