@@ -1,0 +1,29 @@
+#pokedex {
+    width: 800px;
+    height: 600px;
+    margin: auto;
+    background-color: #dd0b2d;
+    border: #88061c 10px solid;
+    border-top-width: 20px;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 5% 40% 10% 40% 5%;
+    grid-template-rows: 3% 12% 40% 20% 20% 5%;
+    border-radius: 2%;
+
+}
+
+.stats-display {
+    background-color: #9fdab1;
+    border-radius: 0%;
+    border: 5px solid #e6e6e6;
+    grid-column-start: 4;
+    grid-row-start: 3;
+    padding: 15px;
+    overflow: scroll;
+}
+
+.stats-display ul {
+    margin: 10px;
+    overflow: auto;
+}
