@@ -1,3 +1,7 @@
+body{
+    background-color: darkgray;
+}
+
 .container {
     width: 800px;
     height: 600px;
@@ -27,8 +31,9 @@
     border: 5px solid #e6e6e6;
     grid-column-start: 4;
     grid-row-start: 3;
+    grid-row-end: 5;
     padding: 15px;
-    overflow: scroll;
+
 }
 
 .stats-display ul {
@@ -45,8 +50,42 @@
     grid-row-end: 5;
 }
 
-camera-display img {
+.camera-display img {
     width: 100%;
     height: auto;
+    margin-top: 2px;
+
+}
+
+#evo-img{
+    margin-top: 2px;
+}
+
+#form {
+    grid-row-start: 5;
+    grid-column-start: 4;
+    padding-top: 10px;
+}
+
+#search-input{
+    padding: 0 10px;
+    background-color: #e6e6e6;
+    font-family: "Press Start 2P";
+    font-size: 18px;
+}
+
+#search-btn{
+    background-color: #1697f9;
+    border: none;
+    border-radius: 2px;
+    color: white;
+    padding: 5px 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+
 }
 

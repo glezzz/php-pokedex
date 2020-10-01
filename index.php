@@ -86,24 +86,23 @@ $prev_evo_img = getEvo($pokemon);     // we need to use it in HTML img tag
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>Pokédex</title>
     <link rel="stylesheet" href="styles.css" type="text/css">
-    <title>Pokédex</title>
 <body>
-<div>
-    <div class="container" id="pokedex"
+<div class="container">
     <div id="form">
         <form action="index.php" method="get">
-            Pokémon or ID: <input type="text" name="nameid"/>
-            <input type="submit"/>
+            <input id= "search-input" type="text" name="nameid" placeholder="Pokémon or ID"/>
+            <input id="search-btn" type="submit" value="Search"/>
         </form>
     </div>
+    <div class="divider"></div>
+    <div class="camera-display">
+        <img src="<?php echo $img; ?>">
+    </div>
     <div class="stats-display">
-        <h2><?php echo $poke_id;
+        <h2><?php echo "#" . $poke_id;
             echo '&nbsp;';
             echo ucfirst($name); ?></h2>  <!-- &nbsp (Non-Breakable Space) whitespace between id & name-->
-        <div id="image">                            <!-- ucfirst() first char uppercase -->
-            <img src="<?php echo $img; ?>">
-        </div>
-        <h3>4 Moves</h3>
+        <h3>Moves</h3>                    <!-- ucfirst() first char uppercase -->
         <ul class="moves">
             <?php
             $i = 0;                                     // while loop to run the func as long as it remains true, which is 4
@@ -114,7 +113,7 @@ $prev_evo_img = getEvo($pokemon);     // we need to use it in HTML img tag
             ?>
         </ul>
         <h3>Previous Evolution</h3>
-        <img src="<?php echo $prev_evo_img; ?>">
+        <img id= "evo-img" src="<?php echo $prev_evo_img; ?>">
     </div>
 </div>
 </body>
